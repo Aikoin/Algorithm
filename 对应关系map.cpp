@@ -1,3 +1,47 @@
+//map基本用法
+#include <iostream>
+#include <map>
+#include <string>
+using namespace std;
+
+
+int main()
+{
+    //声明(int为键，const char*为值)
+    map<int,const char*> m;
+
+    //插入元素
+    m.insert(make_pair(1,"ONE"));
+    m.insert(make_pair(10,"TEN"));
+    m[100] = "HUNDRED";  //其他的写法
+
+    //查找元素
+    map<int,const char*>::iterator it;
+    it = m.find(1);
+    cout<<it->second<<endl;  //输出 ONE
+
+    it = m.find(2);
+    if(it == m.end()) cout<<"not found"<<endl;  //输出not found
+    else cout<<"found"<<endl;
+
+    cout<<m[10]<<endl;   //其他的写法
+
+    //删除元素
+    m.erase(10);
+
+    //遍历一遍所有元素
+    for(it = m.begin();it!=m.end();it++)
+        cout<<it->first<<":"<<it->second<<endl;
+
+    return 0;
+}
+
+
+
+
+
+
+//算法题 【Let the Balloon Rise】ACM 1004
 #include<iostream>
 #include <map>
 #include<algorithm>
@@ -25,6 +69,8 @@ int main()
         cout<<m->first<<endl;
     }
 }
+
+
 
 
 
@@ -68,8 +114,10 @@ int main()
 
 
 
+
+
 //算法题 【Misha and Changing Handles】
-【法一】 //我自己的ac代码
+//【法一】 我自己的ac代码
 #include <iostream>
 #include <map>
 using namespace std;
@@ -100,7 +148,7 @@ int main()
     return 0;
 }
 
-【法二】//别人的，也很简洁，值得参考
+//【法二】别人的，也很简洁，值得参考
 #include <iostream>
 #include <map>
 using namespace std;
