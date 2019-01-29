@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+//埃氏筛法
+
+const int MAX_N = 10005;
+int prime[MAX_N];  //第i个素数
+bool is_prime[MAX_N+1];  //is_prime[i]为true时表示i是素数
+
+//返回n以内素数的个数
+int sieve(int n){
+    int p = 0;
+    for(int i = 0; i <= n; i++) is_prime[i] = true;
+    is_prime[0] = is_prime[1] = false;
+    for(int i = 2; i <= n; i++){
+        if(is_prime[i]){
+            prime[p++] = i;
+            for(int j = 2*i; j <= n; j+=i) is_prime[j] = false;  //筛去所有素数的倍数
+        }
+    }
+    return p;
+}
+
+
+int main()
+{
+    int n;  //枚举n以内素数
+    while(cin>>n){
+       int p = sieve(n);
+        cout<<p<<endl;
+        for(int i = 0; i < p;i++)
+            cout<< prime[i]<<" ";
+        cout<<endl;
+    }
+
+    return 0;
+}

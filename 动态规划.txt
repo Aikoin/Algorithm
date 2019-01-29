@@ -1,0 +1,47 @@
+//动态规划经典问题 HDUOJ1069 Monkey and Banana
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+struct brick{
+    int l=0,w=0,h=0;  //长宽高
+}b[1000]; //砖块结构体数组
+int dp[1000];  //dp[i]: 以第i个砖块为最底层可得到的最高高度
+
+bool cmp(brick b1,brick b2){  //先长后宽从小到大排序
+    if(b1.l==b2.l) return b1.w<b2.w;
+    return b1.l<b2.l;
+}
+
+int main()
+{
+    int n;
+    int x,y,z;
+    int kase = 0;
+    while(cin>>n && n){
+        int len = 0;
+        for(int i = 0; i < n; ++i){
+            cin>>x>>y>>z;
+            //每个砖块有三种放置方法（考虑长>宽）
+            b[len].h = x,b[len].l = y>z?y:z,b[len++].w = y>z?z:y;
+            b[len].h = y,b[len].l = x>z?x:z,b[len++].w = x>z?z:x;
+            b[len].h = z,b[len].l = x>y?x:y,b[len++].w = x>y?y:x;
+        }
+        sort(b,b+len,cmp);  //以先长后宽的顺序从小到大给砖块排序
+        dp[0] = b[0].h;  //现在的b[0]是最小的砖块，上面不能放置其他砖块，高度为它本身
+        int max_h;
+        for(int i=1;i<len;++i){   //从第二个砖块开始循环，每次记录最大值
+            max_h = 0;  //前面0层到i-1层砖块可以堆放的最高高度
+            for(int j=0;j<i;++j){
+                if(b[j].l<b[i].l && b[j].w<b[i].w)
+                    max_h = max_h>dp[j]?max_h:dp[j];
+            }
+            dp[i] = b[i].h + max_h;  //以第i个砖块为最底层可得到的最高高度=前i-1层可堆放的最高高度+i本身高度
+        }
+        sort(dp,dp+len);
+        cout<<"Case "<<(++kase)<<": maximum height = "<<dp[len-1]<<endl;
+    }
+
+    return 0;
+
+}
